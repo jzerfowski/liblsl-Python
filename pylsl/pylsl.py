@@ -1054,6 +1054,22 @@ class XMLElement:
         else:
             lib.lsl_remove_child_n(self.e, rhs)
 
+    def get_children(self):
+        ch = self.first_child()
+        while not ch.empty():
+            yield ch
+            ch = ch.next_sibling()
+
+    def __getitem__(self, name):
+        ch = self.child(name)
+        if ch.empty():
+            raise KeyError(f"{name} not found")
+        else:
+            return ch
+
+
+    def __repr__(self):
+        return f"<XMLElement '{self.name()}' at {id(self):0x}>"
 
 # ==========================
 # === ContinuousResolver ===
